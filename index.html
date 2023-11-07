@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Amount</title>
+  <style>
+    body {
+      font-family: 'Times New Roman', Times, serif;
+      padding: 20px;
+      background-color:whitesmoke;
+    }
+    .container {
+      max-width: 400px;
+      margin: 0 auto;
+    }
+    table {
+      width: 100%;
+      margin-top: 20px;
+      border-collapse: collapse;
+    }
+    table, th, td {
+      border: 1px solid black;
+      padding: 10px;
+      text-align: left;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Credit and Debit Money</h1>
+    <label for="amount">Enter amount:</label>
+    <input type="number" id="amount" >
+    <button onclick="credit()" colo>Credit</button>
+    <button onclick="debit()">Debit</button>
+
+    <table id="transactionTable">
+      <thead>
+        <tr>
+          <th>Action</th>
+          <th>Amount</th>
+          <th>Total</th>
+        </tr>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+
+    <script>
+      let balance = 0;
+      function credit() {
+        const amount = parseFloat(document.getElementById('amount').value);
+        if (!isNaN(amount) && amount > 0) {
+          balance += amount;
+          updateTransactionTable('Credited', amount);
+        } 
+        else {
+          alert('Please enter a positive number');
+        }
+      }
+
+      function debit() {
+        const amount = parseFloat(document.getElementById('amount').value);
+        if (!isNaN(amount) && amount > 0) {
+          if (balance >= amount) {
+            balance -= amount;
+            updateTransactionTable('Debited', amount);
+          } else {
+            alert('Insufficient funds.');
+          }
+        } 
+        else {
+          alert('Please enter a positive number');
+        }
+      }
+      function updateTransactionTable(action, amount) {
+        const table = document.getElementById('transactionTable').getElementsByTagName('tbody')[0];
+        const addrow = table.insertRow(-1);
+        const c1 = addrow.insertCell(0);
+        const c2 = addrow.insertCell(1);
+        const c3 = addrow.insertCell(2);
+        c1.textContent = action;
+        c2.textContent = 'Rs.' + amount.toFixed(2);
+        c3.textContent = 'Rs.' + balance.toFixed(2);
+      }
+    </script>
+  </div>
+</body>
+</html>
